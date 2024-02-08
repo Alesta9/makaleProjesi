@@ -3,7 +3,6 @@ package org.example;
 import java.util.*;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
@@ -47,7 +46,7 @@ public class Main {
         return benzerlikCount;
     }
     public static String[] top10Word(String makale) {
-        String noktalamasizMetin = makale.replaceAll("[^a-zA-Z0-9\\sçğşıüöıÇĞİÜÖ]", "");
+        String noktalamasizMetin = makale.replaceAll("[^a-zA-Z0-9\\sçğşıüöÇĞİÜÖ]", "");
 
         String baglacsizMetin = noktalamasizMetin.toLowerCase().replaceAll("\\s*\\b(ve|veya|ama|fakat|ile|ancak|yahut|hem|de|ise|amaç|çünkü|neden|mademki|gibi|örneğin|mesela)\\b\\s*", " ").trim();
 
@@ -63,9 +62,8 @@ public class Main {
             }
         }
         Map<String,Integer> sortedMap = getFirst10Element(sortByValue(kelimeCount));
-        String[] keysArray = sortedMap.keySet().toArray(new String[0]);
 
-        return keysArray;
+        return sortedMap.keySet().toArray(new String[0]);
 
     }
     public static Map<String, Integer> getFirst10Element(Map<String, Integer> map) {
@@ -78,7 +76,6 @@ public class Main {
     }
 
     public static Map<String, Integer> sortByValue(Map<String, Integer> map) {
-        // EntrySet'ten Stream oluştur, value'ya göre sırala (büyükten küçüğe) ve sıralı bir Map döndür
         return map.entrySet()
                 .stream()
                 .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
